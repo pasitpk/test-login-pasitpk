@@ -46,6 +46,27 @@ async def send_otp(request: Request):
     return phone_number, otp
 
 
+@app.post("/check-opted-out/")
+async def check_opted_out(request: Request):
+    
+    data = await request.json()
+
+    client = boto3.client(
+    "sns",
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_REGION_NAME
+    )
+
+    phone_number = data['phone_number']
+
+    response = client.check_if_phone_number_is_opted_out(
+    phoneNumber=phone_number,
+    )
+
+    return response    
+
+
 if __name__ == "__main__":
     
     host = os.getenv("HOST")
