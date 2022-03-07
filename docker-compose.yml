@@ -3,23 +3,19 @@ version: "3"
 services:
 
   login-frontend:
-    restart: unless-stopped
-    build: .
+    # restart: unless-stopped
+    build: ./login-frontend
     container_name: login-frontend
-    command: bash run.sh
+    command: python main.py
     volumes:
       - ./login-frontend:/app
-    ports:
-      - "9898:9898"
     network_mode: host
 
-  login-backend:
-    restart: unless-stopped
-    build: .
-    container_name: login-backend
-    command: bash run.sh
-    volumes:
-      - ./login-backend:/app
-    ports:
-      - "9899:9899"
-    network_mode: host
+  # login-backend:
+  #   restart: unless-stopped
+  #   build: ./login-backend
+  #   container_name: login-backend
+  #   command: python main.py
+  #   volumes:
+  #     - ./login-backend:/app
+  #   network_mode: host

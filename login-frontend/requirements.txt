@@ -1,0 +1,9 @@
+aiofiles
+fastapi
+jinja2
+numpy
+pandas
+uvicorn
+psutil
+python-dateutil
+python-dotenv
