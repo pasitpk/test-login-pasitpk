@@ -5,6 +5,7 @@ if not sys.warnoptions:
 
 from starlette.concurrency import run_in_threadpool
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, Request, HTTPException
 import uvicorn
 import os

@@ -3,7 +3,7 @@ version: "3"
 services:
 
   login-frontend:
-    # restart: unless-stopped
+    restart: unless-stopped
     build: ./login-frontend
     container_name: login-frontend
     command: python main.py
