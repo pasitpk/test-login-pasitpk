@@ -4,8 +4,6 @@ if not sys.warnoptions:
     warnings.simplefilter("ignore")
 
 from starlette.concurrency import run_in_threadpool
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, Request, HTTPException
 import uvicorn
 import os
@@ -18,14 +16,7 @@ LINE_REDIRECT_URI = str(os.getenv("LINE_REDIRECT_URI"))
 LINE_CHANNEL_ID = str(os.getenv("LINE_CHANNEL_ID"))
 LINE_CHANNEL_SECRET = str(os.getenv("LINE_CHANNEL_SECRET"))
 
-templates = Jinja2Templates(directory='login-templates')
 app = FastAPI()
-app.mount("/static", StaticFiles(directory='login-templates'), name="templates")
-
-
-@app.get("/")
-def home(request: Request):
-    return templates.TemplateResponse('index.html', {'request': request})
 
 
 @app.get("/verify-line-token/")
