@@ -9,7 +9,8 @@ services:
     command: python main.py
     volumes:
       - ./login-frontend:/app
-    network_mode: host
+    ports:
+      - 9898:9898
 
   # login-backend:
   #   restart: unless-stopped

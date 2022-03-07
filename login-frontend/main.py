@@ -20,8 +20,8 @@ def home(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
 @app.get("/verify-line-token")
-async def verify_line_token(data):
-    q_params = dict(req.query_params)
+async def verify_line_token(request: Request):
+    q_params = dict(request.query_params)
     for k, v in q_params:
         print(f'{k}: {v}')
     
