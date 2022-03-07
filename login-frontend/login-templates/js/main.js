@@ -56,18 +56,30 @@
 
 })(jQuery);
 
+function makeid(length) {
+    var result           = '';
+    var characters       = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+
 async function loginLine() {
-    const 
-        endpoint = "https://access.line.me/oauth2/v2.1/authorize",  
-        params = [
+     
+    const endpoint = "https://access.line.me/oauth2/v2.1/authorize";
+    const state = makeid(10);
+    const params = [
             "response_type=code",
             "client_id=1656952085",
             "redirect_uri=https://test.pasitpk.app/login-frontend/verify-line-token",
-            "state=12345abcde", //this should be randomly generated
+            "state=" + state, //this should be randomly generated
             "scope=profile%20openid%20email"
-        ].join("&")
+        ].join("&");
 
-    const url = endpoint + "?" + params
+    const url = endpoint + "?" + params;
           
     location.replace(url);
 };
