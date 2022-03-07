@@ -12,11 +12,12 @@ services:
     ports:
       - 9898:9898
 
-  # login-backend:
-  #   restart: unless-stopped
-  #   build: ./login-backend
-  #   container_name: login-backend
-  #   command: python main.py
-  #   volumes:
-  #     - ./login-backend:/app
-  #   network_mode: host
+  login-backend:
+    restart: unless-stopped
+    build: ./login-backend
+    container_name: login-backend
+    command: python main.py
+    volumes:
+      - ./login-backend:/app
+    ports:
+      - 9899:9899
