@@ -1,3 +1,4 @@
+requests
 aiofiles
 fastapi
 jinja2

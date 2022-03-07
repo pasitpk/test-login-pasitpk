@@ -9,25 +9,77 @@ from fastapi.staticfiles import StaticFiles
 from fastapi import FastAPI, Request, HTTPException
 import uvicorn
 import os
+import requests
 from dotenv import load_dotenv
-print(os.listdir(os.getcwd()))
+
+load_dotenv()
+
+LINE_REDIRECT_URI = str(os.getenv("LINE_REDIRECT_URI"))
+LINE_CHANNEL_ID = str(os.getenv("LINE_CHANNEL_ID"))
+LINE_CHANNEL_SECRET = str(os.getenv("LINE_CHANNEL_SECRET"))
+
 templates = Jinja2Templates(directory='login-templates')
 app = FastAPI()
 app.mount("/static", StaticFiles(directory='login-templates'), name="templates")
+
 
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
-@app.get("/verify-line-token")
+
+@app.get("/verify-line-token/")
 async def verify_line_token(request: Request):
+    
     q_params = dict(request.query_params)
-    for k, v in q_params:
+    for k, v in q_params.items():
         print(f'{k}: {v}')
     
-if __name__ == "__main__":
+    token_info = await get_access_token(q_params['code'], LINE_REDIRECT_URI, LINE_CHANNEL_ID, LINE_CHANNEL_SECRET)
+    for k, v in token_info.items():
+        print(f'{k}: {v}')
 
-    load_dotenv()
+    user_info = await verify_id_token(token_info['id_token'], LINE_CHANNEL_ID)
+    for k, v in user_info.items():
+        print(f'{k}: {v}')
+
+    return q_params, token_info, user_info
+  
+
+async def get_access_token(code, redirect_uri, client_id, client_secret):
+    endpoint = 'https://api.line.me/oauth2/v2.1/token'
+    headers = {
+        'content-type': 'application/x-www-form-urlencoded'
+    }
+    payload = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': redirect_uri,
+        'client_id': client_id,
+        'client_secret': client_secret,
+    }
+    res = requests.post(endpoint, data=payload, headers=headers)
+    data = res.json()
+
+    return data
+
+
+async def verify_id_token(id_token, client_id):
+    endpoint = 'https://api.line.me/oauth2/v2.1/verify'
+    headers = {
+        'content-type': 'application/x-www-form-urlencoded'
+    }
+    payload = {
+        'id_token': id_token,
+        'client_id': client_id,
+    }
+    res = requests.post(endpoint, data=payload, headers=headers)
+    data = res.json()
+
+    return data
+
+
+if __name__ == "__main__":
     
     host = os.getenv("HOST")
     port = os.getenv("PORT")

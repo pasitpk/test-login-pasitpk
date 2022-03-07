@@ -59,36 +59,31 @@
 async function loginLine() {
     const 
         endpoint = "https://access.line.me/oauth2/v2.1/authorize",  
-        response_type = "code",
-        client_id = "1656952085",
-        redirect_uri= "https://test.pasitpk.app/login-frontend/verify-line-token",
-        state = "12345abcde", //this should be randomly generated
-        scope = "profile%20openid";
+        params = [
+            "response_type=code",
+            "client_id=1656952085",
+            "redirect_uri=https://test.pasitpk.app/login-frontend/verify-line-token",
+            "state=12345abcde", //this should be randomly generated
+            "scope=profile%20openid%20email"
+        ].join("&")
 
-    const url = endpoint + "?" + [response_type, client_id, redirect_uri, state, scope].join("&")
+    const url = endpoint + "?" + params
           
-    try {
-        var res = await fetch(url);
-        if (res.status == 200) {
-            line_info = await res.json();
-            console.log(line_info)
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
+    location.replace(url);
 };
 
 async function verifyLine() {
     const 
         endpoint = "https://access.line.me/oauth2/v2.1/authorize",  
-        response_type = "code",
-        client_id = "1656952085",
-        redirect_uri= "https://test.pasitpk.app/login-frontend/verify-line-token",
-        state = "12345abcde", //this should be randomly generated
-        scope = "profile%20openid";
+        params = [
+            "response_type=code",
+            "client_id=1656952085",
+            "redirect_uri=https://test.pasitpk.app/login-frontend/verify-line-token",
+            "state=12345abcde", //this should be randomly generated
+            "scope=profile%20openid"
+        ].join("&")
 
-    const url = endpoint + "?" + [response_type, client_id, redirect_uri, state, scope].join("&")
+    const url = endpoint + "?" + params
           
     try {
         var res = await fetch(url);
@@ -104,14 +99,16 @@ async function verifyLine() {
 
 async function sendOTP() {
     const 
-        endpoint = "https://access.line.me/oauth2/v2.1/authorize",  
-        response_type = "code",
-        client_id = "1656952085",
-        redirect_uri= "https://test.pasitpk.app/login-frontend/verify-line-token",
-        state = "12345abcde", //this should be randomly generated
-        scope = "profile%20openid";
+        endpoint = "https://access.line.me/oauth2/v2.1/authorize",
+        params = [
+            "response_type=code",
+            "client_id=1656952085",
+            "redirect_uri=https://test.pasitpk.app/login-frontend/verify-line-token",
+            "state=12345abcde", //this should be randomly generated
+            "scope=profile%20openid"
+        ].join("&")
 
-    const url = endpoint + "?" + [response_type, client_id, redirect_uri, state, scope].join("&")
+    const url = endpoint + "?" + params
           
     try {
         var res = await fetch(url);
