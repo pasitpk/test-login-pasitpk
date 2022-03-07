@@ -8,3 +8,4 @@ uvicorn
 psutil
 python-dateutil
 python-dotenv
+boto3
