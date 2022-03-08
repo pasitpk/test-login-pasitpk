@@ -76,7 +76,7 @@ async function loginLine() {
             "client_id=1656952085",
             "redirect_uri=https://test.pasitpk.app/login-frontend/verify-line-token",
             "state=" + state, //this should be randomly generated
-            "scope=profile%20openid%20email"
+            "scope=profile%20openid%20email%20real_name%20gender%20birthdate%20phone%20address"
         ].join("&");
 
     const url = endpoint + "?" + params;
@@ -84,52 +84,6 @@ async function loginLine() {
     location.replace(url);
 };
 
-async function verifyLine() {
-    const 
-        endpoint = "https://access.line.me/oauth2/v2.1/authorize",  
-        params = [
-            "response_type=code",
-            "client_id=1656952085",
-            "redirect_uri=https://test.pasitpk.app/login-frontend/verify-line-token",
-            "state=12345abcde", //this should be randomly generated
-            "scope=profile%20openid"
-        ].join("&")
-
-    const url = endpoint + "?" + params
-          
-    try {
-        var res = await fetch(url);
-        if (res.status == 200) {
-            line_info = await res.json();
-            console.log(line_info)
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
-};
-
 async function sendOTP() {
-    const 
-        endpoint = "https://access.line.me/oauth2/v2.1/authorize",
-        params = [
-            "response_type=code",
-            "client_id=1656952085",
-            "redirect_uri=https://test.pasitpk.app/login-frontend/verify-line-token",
-            "state=12345abcde", //this should be randomly generated
-            "scope=profile%20openid"
-        ].join("&")
-
-    const url = endpoint + "?" + params
-          
-    try {
-        var res = await fetch(url);
-        if (res.status == 200) {
-            line_info = await res.json();
-            console.log(line_info)
-        }
-    }
-    catch (err) {
-        console.log(err);
-    }
+    
 };
