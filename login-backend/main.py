@@ -29,6 +29,9 @@ async def send_otp(request: Request):
     
     data = await request.json()
 
+    if ('access_key' not in data) or (data['access_key'] != AWS_ACCESS_KEY_ID):
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
     client = boto3.client(
     "sns",
     aws_access_key_id=AWS_ACCESS_KEY_ID,
@@ -50,6 +53,9 @@ async def send_otp(request: Request):
 async def check_opted_out(request: Request):
     
     data = await request.json()
+
+    if ('access_key' not in data) or (data['access_key'] != AWS_ACCESS_KEY_ID):
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
     client = boto3.client(
     "sns",
