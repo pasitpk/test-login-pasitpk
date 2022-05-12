@@ -26,13 +26,18 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
+	<script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async" defer="defer"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
 </head>
 <body>
-	
+	<div id="fb-root" style="display: none;"></div>
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('images/bg-01.jpg');">
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
-				<form class="login100-form validate-form flex-sb flex-w">
+				<form id="form-container" class="login100-form validate-form flex-sb flex-w">
 					<span class="login100-form-title p-b-53">
 						Sign In With
 					</span>
@@ -74,6 +79,9 @@
 							Sign In
 						</button>
 					</div>
+					<div class="line-it-button" data-lang="th" data-type="share-a" data-env="REAL" data-url="https://dev.cccnlab.co" data-color="default" data-size="large" data-count="false" data-ver="3" style="display: none;"></div>
+					
+					<button type="button" id="share-button" style="font-size: 16px; color:white; background-color:grey; border-radius:5px; padding: 0px 10px;"><i class="fa-solid fa-share-nodes"> แชร์ </i></button>
 
 					<div class="w-full text-center p-t-55">
 						<span class="txt2">
@@ -91,7 +99,36 @@
 	
 
 	<div id="dropDownSelect1"></div>
-	
+	<script>
+
+	async function shareDOM(domId, title, text, url) {
+		const node = document.getElementById(domId);
+		const blob = await domtoimage.toBlob(node);
+		const filesArray = [new File([blob], 'shared-img.png', { type: blob.type, lastModified: new Date().getTime() })];
+		const shareData = {
+		files: filesArray,
+		title: title,
+		text: text,
+		url: url
+		};
+		await navigator.share(shareData);
+	};
+
+	async function shareLandingPage() {
+		const domId = 'form-container';
+		const title = 'CCCN';
+		const text = 'Digital Cognitive Game';
+		const url = 'https://dev.cccnlab.co';
+		try {
+			await shareDOM(domId, title, text, url);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	$('#share-button').off('click').click(shareLandingPage);
+
+	</script>
 <!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
